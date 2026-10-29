@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AgentDesk.Views.Authentication.LoginPage"
+    xmlns:ext="clr-namespace:AgentDesk.CustomeControls"
+    NavigationPage.HasNavigationBar="False"
+    x:Name="page"
+    BindingContext="{Binding ViewModel, Source={x:Reference page }}">
+    <Grid>
+        <Image Aspect="AspectFit" Source="img_bg" />
+
+        <Grid Padding="20,15" RowDefinitions="Auto,Auto,20,*"
+              RowSpacing="10">
+            <Image
+                Grid.Row="1"
+                Aspect="AspectFit"
+                WidthRequest="200"
+                HorizontalOptions="Center"
+                Source="agentdesk_appicon"
+                VerticalOptions="Center" />
+
+            <StackLayout Grid.Row="3" Spacing="15">
+                <StackLayout Spacing="10" Padding="0,0,0,15">
+                    <!--  Title  -->
+                    <Label
+                        Style="{StaticResource lblMedium}"
+                        FontSize="22"
+                        HorizontalOptions="Center"
+                        Text="Login"
+                        TextColor="#000000" />
+                    <Label
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource lblRegular}"
+                        Text="Enter your email and password to securely access your account."
+                        TextColor="#A7A7A7" />
+                </StackLayout>
+
+
+                <VerticalStackLayout Spacing="4">
+                    <!--  Email  -->
+                    <StackLayout Spacing="8">
+                        <Label
+                            FontSize="14"
+                            Style="{StaticResource lblMedium}"
+                            Text="Email Address" />
+
+                        <Border Padding="0,0,10,0" 
+                                Style="{StaticResource ExtBorder}"
+                                Stroke="{Binding HasEmailAddressError, Converter={StaticResource BoolToErrorColorConverter}}">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <ext:BorderlessEntry
+                                    Text="{Binding EmailAddress}"
+                                    Keyboard="Email"
+                                    Placeholder="abc@gmail.com"
+                                    Style="{StaticResource extAuthEntry}" />
+                                <Image
+                                    Grid.Column="1"
+                                    Source="icon_mail"
+                                    WidthRequest="20" />
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+                    <Label
+                        FontSize="14"
+                        Text="{Binding EmailAddressError}"
+                        TextColor="{StaticResource AppRed}"
+                        HorizontalOptions="Start"
+                        IsVisible="{Binding HasEmailAddressError}" />
+
+                </VerticalStackLayout>
+
+                <!--  Password  -->
+                <VerticalStackLayout Spacing="2">
+
+                    <StackLayout Spacing="8">
+                        <Label
+                            FontSize="14"
+                            Style="{StaticResource lblMedium}"
+                            Text="Password" />
+
+                        <Border
+                            Margin="0"
+                            Padding="0,0,10,0"
+                            Style="{StaticResource ExtBorder}"
+                            Stroke="{Binding HasPasswordError, Converter={StaticResource BoolToErrorColorConverter}}">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <ext:BorderlessEntry
+                                    Text="{Binding Password}"
+                                    IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolConverter}}"
+                                    Placeholder="*****"
+                                    Style="{StaticResource extAuthEntry}" />
+                                <Image
+                                    Grid.Column="1"
+                                    Source="{Binding PasswordIcon}"
+                                    WidthRequest="20">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+                    <Label
+                        FontSize="14"
+                        Text="{Binding PasswordError}"
+                        TextColor="{StaticResource AppRed}"
+                        HorizontalOptions="Start"
+                        IsVisible="{Binding HasPasswordError}" />
+                </VerticalStackLayout>
+
+                <StackLayout
+                    Margin="0"
+                    Padding="0"
+                    HorizontalOptions="Start"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Image
+                        Margin="0"
+                        Source="{Binding RememberMe,Converter={StaticResource RememberMeIconConverter}}"
+                        HeightRequest="15"
+                        VerticalOptions="Center"
+                        WidthRequest="15" />
+                    <Label
+                        FontSize="15"
+                        HorizontalOptions="Start"
+                        Text="Remember me"
+                        Style="{StaticResource lblRegular}"
+                        TextColor="{StaticResource AppPrimary}"
+                        VerticalOptions="Center" />
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding ToggleRememberMeCommand}" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+
+                <!--  Login Button  -->
+                <Button
+                    Margin="0,20,0,0"
+                    Command="{Binding LoginCommand}"
+                    Style="{StaticResource BtnPrimary}"
+                    Text="Login" />
+                <Label
+                    x:Name="LblForgotPassword"
+                    FontSize="15"
+                    Style="{StaticResource lblRegular}"
+                    Text="Forgot Password?"
+                    TextColor="{StaticResource AppPrimary}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

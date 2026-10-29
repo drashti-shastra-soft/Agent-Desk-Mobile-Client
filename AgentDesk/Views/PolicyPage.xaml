@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+     xmlns:ext="clr-namespace:AgentDesk.CustomeControls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="AgentDesk.Views.PolicyPage"
+    NavigationPage.HasNavigationBar="False"
+    x:Name="page"
+    BindingContext="{Binding ViewModel, Source={x:Reference page}}">
+    <Grid>
+        <Image Aspect="AspectFit" Source="img_bg" IsVisible="False" />
+        <RefreshView
+            RefreshColor="{StaticResource AppPrimary}"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+            <Grid RowDefinitions="Auto,*,Auto" Padding="0,0,0,0">
+                <!--<Grid
+                    Padding="15,0,15,10"
+                    Grid.Row="0"
+                    ColumnDefinitions="Auto,*,Auto">
+                    <Image
+                        Grid.Column="0"
+                        Source="icon_back"
+                        Style="{StaticResource ImgSmall}"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BackCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <Label
+                        Grid.Column="1"
+                        Text="Policy"
+                        FontSize="22"
+                        Style="{StaticResource lblMedium}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Center" />
+
+
+                    <Image
+                        Grid.Column="2"
+                        Source="icon_downarrow.png"
+                        Style="{StaticResource ImgSmall}"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center">
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image"
+                                         Binding="{Binding IsAllExpanded}"
+                                         Value="True">
+                                <Setter Property="Rotation" Value="180" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleAllCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>-->
+
+                <Grid
+                    Padding="15,0,15,10"
+                    Grid.Row="0"
+                    ColumnDefinitions="Auto,*,Auto">
+
+                    <!-- Back button -->
+                    <Border
+                        Grid.Column="0"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BackCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Image
+                            Source="icon_back"
+                            Style="{StaticResource ImgSmall}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Border>
+
+                    <Label
+                        Grid.Column="1"
+                        Text="Policy"
+                        FontSize="22"
+                        Style="{StaticResource lblMedium}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Center" />
+
+                    <!-- Expand / collapse all button -->
+                    <Border
+                        Grid.Column="2"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleAllCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Image
+                            Source="icon_downarrow.png"
+                            Style="{StaticResource ImgSmall}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                            <Image.Triggers>
+                                <DataTrigger TargetType="Image"
+                                             Binding="{Binding IsAllExpanded}"
+                                             Value="True">
+                                    <Setter Property="Rotation" Value="180" />
+                                </DataTrigger>
+                            </Image.Triggers>
+                        </Image>
+                    </Border>
+                </Grid>
+                <CollectionView
+                    Grid.Row="1"
+                    ItemsSource="{Binding PolicyList}"
+                    SelectionMode="None"
+                    VerticalScrollBarVisibility="Never">
+                    <!--Empty State-->
+
+                    <CollectionView.EmptyView>
+                        <!--Grid 
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill"-->
+                        <VerticalStackLayout
+                            Spacing="12"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                            <Border
+                                Background="#E0F5FF"
+                                HorizontalOptions="Center"
+                                StrokeShape="RoundRectangle 36"
+                                StrokeThickness="0"
+                                HeightRequest="72"
+                                WidthRequest="72">
+                                <Image
+                                    Source="policies_blue_icon.png"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    HeightRequest="36"
+                                    WidthRequest="36">
+                                </Image>
+                            </Border>
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Style="{StaticResource lblMedium}"
+                                Text="No Policy Found"
+                                TextColor="#1A1A1A" />
+
+                        </VerticalStackLayout>
+                        <!--</Grid>-->
+                    </CollectionView.EmptyView>
+
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="15,0" Margin="0,10,0,0">
+                                <Border
+                                    Padding="0"
+                                    Background="White"
+                                    Stroke="#BFE3F5"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="1">
+                                    <Border.Shadow>
+                                        <Shadow Brush="Black" Opacity="0.05" Radius="8" Offset="0,2" />
+                                    </Border.Shadow>
+
+                                    <toolkit:Expander
+                                        x:Name="policyExpander"
+                                        IsExpanded="{Binding IsExpanded, Mode=TwoWay}">
+
+                                        <!-- HEADER: always visible (blue bar + policy holder) -->
+                                        <toolkit:Expander.Header>
+                                            <VerticalStackLayout Spacing="0">
+
+                                                <!-- Blue bar -->
+                                                <Grid
+                                                    BackgroundColor="#1E9BD7"
+                                                    Padding="12,8"
+                                                    ColumnDefinitions="Auto,*,*"
+                                                    ColumnSpacing="8">
+
+                                                    <!--Policy Number + Status-->
+                                                    <VerticalStackLayout
+                                                        Grid.Column="0"
+                                                        Spacing="3"
+                                                        VerticalOptions="Center">
+                                                        <Label
+                                                            Text="Policy Number"
+                                                            Style="{StaticResource lblMedium}"
+                                                            FontSize="14"
+                                                            TextColor="White" />
+                                                        <HorizontalStackLayout Spacing="8">
+                                                            <Label
+                                                                Text="{Binding PolicyNumber, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                                FontSize="12"
+                                                                Style="{StaticResource lblRegular}"
+                                                                TextColor="White"
+                                                                VerticalTextAlignment="Center" />
+                                                            <Border
+                                                                Padding="5,0"
+                                                                BackgroundColor="{Binding IsActive, Converter={StaticResource StatusBackgroundConverter}}"
+                                                                StrokeThickness="0"
+                                                                StrokeShape="RoundRectangle 4">
+                                                                <Label
+                                                                    Text="{Binding IsActive, Converter={StaticResource StatusTextConverter}}"
+                                                                    FontSize="12"
+                                                                    Style="{StaticResource lblMedium}"
+                                                                    TextColor="{Binding IsActive, Converter={StaticResource StatusForegroundConverter}}"
+                                                                    VerticalTextAlignment="Center" />
+                                                            </Border>
+                                                        </HorizontalStackLayout>
+                                                    </VerticalStackLayout>
+
+                                                    <!--Pay Mode (middle)-->
+                                                    <VerticalStackLayout
+                                                        Grid.Column="1"
+                                                        Spacing="3"
+                                                        HorizontalOptions="Center"
+                                                        VerticalOptions="Center">
+                                                        <Label
+                                                            Text="{Binding PayMode, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                            FontSize="14"
+                                                            Style="{StaticResource lblBold}"
+                                                            TextColor="White"
+                                                            HorizontalTextAlignment="Center" />
+                                                        <!-- Plan / Term / PPT -->
+                                                        <Label
+                                                            Text="{Binding PlanTermPpt}"
+                                                            FontSize="12"
+                                                            Style="{StaticResource lblRegular}"
+                                                            TextColor="White"
+                                                            HorizontalTextAlignment="Center" />
+
+                                                    </VerticalStackLayout>
+
+                                                    <!--FUP Date-->
+                                                    <VerticalStackLayout
+                                                        Grid.Column="2"
+                                                        Spacing="3"
+                                                        HorizontalOptions="End"
+                                                        VerticalOptions="Center">
+                                                        <Label
+                                                            Text="FUP Date"
+                                                            Style="{StaticResource lblMedium}"
+                                                            FontSize="14"
+                                                            TextColor="White"
+                                                            HorizontalTextAlignment="End" />
+                                                        <Label
+                                                            Text="{Binding FUPDate, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                            FontSize="12"
+                                                            Style="{StaticResource lblRegular}"
+                                                            TextColor="White"
+                                                            HorizontalTextAlignment="End" />
+                                                    </VerticalStackLayout>
+                                                </Grid>
+
+                                                <!-- Policy Holder + DOB (always visible) -->
+                                                <VerticalStackLayout
+                                                    Padding="12,10"
+                                                    Spacing="1"
+                                                    BackgroundColor="White">
+                                                    <Label
+                                                        Text="Policy Holder"
+                                                        Style="{StaticResource lblMedium}" />
+                                                    <Label
+                                                        Text="{Binding Client, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}"
+                                                        MaxLines="2"
+                                                        LineBreakMode="TailTruncation" />
+                                                    <Label
+                                                        Text="{Binding DOB, Converter={StaticResource NullOrEmptyToDashConverter}, StringFormat='(DOB: {0})'}"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}" />
+                                                </VerticalStackLayout>
+
+                                            </VerticalStackLayout>
+                                        </toolkit:Expander.Header>
+
+                                        <!-- CONTENT: hidden when collapsed -->
+                                        <Grid RowDefinitions="Auto,1,Auto">
+
+                                            <!-- Body (Policy Holder removed, rows shifted up) -->
+                                            <Grid
+                                                Grid.Row="0"
+                                                Padding="12,0,12,10"
+                                                ColumnDefinitions="*,*"
+                                                RowDefinitions="Auto,Auto,Auto"
+                                                ColumnSpacing="10"
+                                                RowSpacing="8">
+
+                                                <!--Policy Type-->
+                                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="1">
+                                                    <Label Text="Policy Type" Style="{StaticResource lblMedium}" />
+                                                    <Label
+                                                        Text="{Binding PolicyType, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}"
+                                                        LineBreakMode="TailTruncation" />
+                                                </VerticalStackLayout>
+
+                                                <!--Policy Status-->
+                                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="1" HorizontalOptions="End">
+                                                    <Label
+                                                        Text="Policy Status"
+                                                        Style="{StaticResource lblMedium}"
+                                                        HorizontalTextAlignment="End" />
+                                                    <Label
+                                                        Text="{Binding PolicyStatus, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}"
+                                                        HorizontalTextAlignment="End"
+                                                        LineBreakMode="TailTruncation" />
+                                                </VerticalStackLayout>
+
+                                                <!--Commercement Date-->
+                                                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="1">
+                                                    <Label Text="Commercement Date" Style="{StaticResource lblMedium}" />
+                                                    <Label
+                                                        Text="{Binding CommercementDate, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}" />
+                                                </VerticalStackLayout>
+
+                                                <!--Maturity Date-->
+                                                <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="1" HorizontalOptions="End">
+                                                    <Label
+                                                        Text="Maturity Date"
+                                                        Style="{StaticResource lblMedium}"
+                                                        HorizontalTextAlignment="End" />
+                                                    <Label
+                                                        Text="{Binding MaturityDate, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}"
+                                                        HorizontalTextAlignment="End"
+                                                        LineBreakMode="TailTruncation" />
+                                                </VerticalStackLayout>
+
+                                                <!--Premium Amount-->
+                                                <VerticalStackLayout Grid.Row="2" Grid.Column="0" Spacing="1">
+                                                    <Label Text="Premium Amount" Style="{StaticResource lblMedium}" />
+                                                    <Label
+                                                        Text="{Binding PremiumAmount, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}" />
+                                                </VerticalStackLayout>
+
+                                                <!--Sum Assured-->
+                                                <VerticalStackLayout Grid.Row="2" Grid.Column="1" Spacing="1" HorizontalOptions="End">
+                                                    <Label
+                                                        Text="Sum Assured"
+                                                        Style="{StaticResource lblMedium}"
+                                                        HorizontalTextAlignment="End" />
+                                                    <Label
+                                                        Text="{Binding SumAssured, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}"
+                                                        HorizontalTextAlignment="End" />
+                                                </VerticalStackLayout>
+                                            </Grid>
+
+                                            <!-- Divider -->
+                                            <BoxView Grid.Row="1" HeightRequest="1" Color="#BFE3F5" />
+
+                                            <!-- Footer actions -->
+                                            <Grid Grid.Row="2" ColumnDefinitions="*,1,*,1,*" Padding="0,5">
+
+                                                <!-- When PayMode is Single: only Edit + Delete, so use 3 columns -->
+                                                <Grid.Triggers>
+                                                    <DataTrigger TargetType="Grid" Binding="{Binding IsSinglePay}" Value="True">
+                                                        <Setter Property="ColumnDefinitions" Value="*,1,*" />
+                                                    </DataTrigger>
+                                                </Grid.Triggers>
+
+                                                <!-- Edit -->
+                                                <Border
+                                                    Grid.Column="0"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"
+                                                    Stroke="Transparent"
+                                                    StrokeThickness="0"
+                                                    BackgroundColor="Transparent"
+                                                    StrokeShape="RoundRectangle 6"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center">
+
+                                                    <!--<Border.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding Source={x:Reference page}, Path=ViewModel.EditPolicyCommand}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>-->
+
+                                                    <Image Source="edit_icon.png" Aspect="AspectFit" Margin="6" />
+                                                </Border>
+
+                                                <BoxView Grid.Column="1" WidthRequest="1" Margin="0,2" Color="#1E9BD7" />
+
+                                                <!-- Update Policy Premium (hidden when PayMode = Single) -->
+                                                <Border
+                                                    Grid.Column="2"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"
+                                                    Stroke="Transparent"
+                                                    StrokeThickness="0"
+                                                    BackgroundColor="Transparent"
+                                                    StrokeShape="RoundRectangle 6"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center">
+
+                                                    <Border.Triggers>
+                                                        <DataTrigger TargetType="Border" Binding="{Binding IsSinglePay}" Value="True">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                        </DataTrigger>
+                                                    </Border.Triggers>
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding Source={x:Reference page}, Path=ViewModel.UpdateFupCommand}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Image Source="icon_premium" WidthRequest="30" HeightRequest="30" Aspect="AspectFit" Margin="7" />
+                                                </Border>
+
+                                                <!-- Divider after Update (hidden when PayMode = Single) -->
+                                                <BoxView Grid.Column="3" WidthRequest="1" Margin="0,2" Color="#1E9BD7">
+                                                    <BoxView.Triggers>
+                                                        <DataTrigger TargetType="BoxView" Binding="{Binding IsSinglePay}" Value="True">
+                                                            <Setter Property="IsVisible" Value="False" />
+                                                        </DataTrigger>
+                                                    </BoxView.Triggers>
+                                                </BoxView>
+
+                                                <!-- Delete (moves to column 2 when PayMode = Single) -->
+                                                <Border
+                                                    Grid.Column="4"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"
+                                                    Stroke="Transparent"
+                                                    StrokeThickness="0"
+                                                    BackgroundColor="Transparent"
+                                                    StrokeShape="RoundRectangle 6"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center">
+
+                                                    <Border.Triggers>
+                                                        <DataTrigger TargetType="Border" Binding="{Binding IsSinglePay}" Value="True">
+                                                            <Setter Property="Grid.Column" Value="2" />
+                                                        </DataTrigger>
+                                                    </Border.Triggers>
+
+                                                    <!--<Border.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding Source={x:Reference page}, Path=ViewModel.DeletePolicyCommand}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>-->
+
+                                                    <Image Source="delete_icon.png" Aspect="AspectFit" Margin="7" />
+                                                </Border>
+                                            </Grid>
+
+                                        </Grid>
+
+                                    </toolkit:Expander>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+
+                </CollectionView>
+                <Grid  Grid.Row="1" ColumnDefinitions="*,Auto">
+                    <Border
+                    IsVisible="True"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="0,0,15,0"
+                    Background="{StaticResource AppPrimary}"
+                    HeightRequest="50"
+                    HorizontalOptions="End"
+                    Stroke="Transparent"
+                    StrokeShape="{RoundRectangle CornerRadius=25}"
+                    VerticalOptions="End"
+                    WidthRequest="50">
+                        <Image
+                        Aspect="AspectFit"
+                        HeightRequest="20"
+                        Source="add_icon"
+                        WidthRequest="20" />
+                        <!--<Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddPolicyCommand}" />
+                    </Border.GestureRecognizers>-->
+                    </Border>
+                    <!-- Row 2: Search box at the bottom -->
+                    <!--<Border
+                        Grid.Row="2"
+                        Margin="15,10,15,0"
+                        Padding="4,0"
+                        HeightRequest="50"
+                        Background="White"
+                        Stroke="#BFE3F5"
+                        VerticalOptions="End"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 23">
+
+                        <ext:BorderlessSearchBar
+                            Text="{Binding SearchText, Mode=TwoWay}"
+                            Placeholder="Search policy number, holder, type"
+                            PlaceholderColor="#9E9E9E"
+                            TextColor="#1A1A1A"
+                            CancelButtonColor="#1E9BD7"
+                            FontSize="14"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"
+                            SearchCommand="{Binding SearchCommand}" />
+                    </Border>-->
+                </Grid>
+
+                <!-- Row 2: Search box at the bottom -->
+                <Grid  Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="10" Padding="10" >
+                    <Border
+                        Grid.Row="2"
+                        Padding="4,0"
+                        HeightRequest="50"
+                        Background="White"
+                        Stroke="#BFE3F5"
+                        VerticalOptions="End"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 23">
+
+                        <ext:BorderlessSearchBar
+                            Text="{Binding SearchText, Mode=TwoWay}"
+                            Placeholder="Search policy number, holder..."
+                            PlaceholderColor="#9E9E9E"
+                            TextColor="#1A1A1A"
+                            CancelButtonColor="#1E9BD7"
+                            FontSize="14"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"/>
+                        <!--SearchCommand="{Binding SearchCommand}" />-->
+                    </Border>
+                    <Border
+                        IsVisible="True"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Background="Transparent"
+                        HeightRequest="50"
+                        HorizontalOptions="End"
+                        Stroke="Transparent"
+                        StrokeShape="{RoundRectangle CornerRadius=25}"
+                        VerticalOptions="End"
+                        WidthRequest="50">
+                        <Image
+                            Aspect="AspectFit"
+                            HeightRequest="20"
+                            Source="filter_icon.png"
+                            WidthRequest="20" >
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{StaticResource AppPrimary}" />
+                            </Image.Behaviors>
+                        </Image>
+                        <!--<Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddPolicyCommand}" />
+                        </Border.GestureRecognizers>-->
+                    </Border>
+                </Grid>
+            </Grid>
+        </RefreshView>
+    </Grid>
+</ContentPage>

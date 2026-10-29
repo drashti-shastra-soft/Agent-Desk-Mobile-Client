@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:AgentDesk.CustomeControls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    x:Class="AgentDesk.Views.Tabs.ClientTabView">
+
+    <!-- BindingContext is inherited from AddClientPage (AddClientPageViewModel) -->
+    <VerticalStackLayout Spacing="15">
+
+        <!-- Group -->
+        <StackLayout Spacing="4">
+            <StackLayout Spacing="8">
+                <Label FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Style="{StaticResource lblMedium}" Text="Group" />
+                            <Span Text=" *" Style="{StaticResource lblMedium}" TextColor="{StaticResource AppRed}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Border Padding="0,0,10,0"
+                        Stroke="{Binding HasSelectedGroupError, Converter={StaticResource BoolToErrorColorConverter}}"
+                        Style="{StaticResource ExtBorder}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <ext:BorderlessPicker
+                            x:Name="groupPicker"
+                            Grid.Column="0"
+                            ItemsSource="{Binding GroupList}"
+                            SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding Name}"
+                            TextColor="#1A1A1A"
+                            FontSize="14"
+                            Margin="10,0"
+                            Title="Select Group"
+                            VerticalOptions="Center" />
+                        <Image Grid.Column="1" Source="icon_downarrow" WidthRequest="15" />
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnPickerTapped" />
+                    </Border.GestureRecognizers>
+                </Border>
+            </StackLayout>
+            <Label FontSize="14"
+                   Text="{Binding SelectedGroupError}"
+                   TextColor="{StaticResource AppRed}"
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding HasSelectedGroupError}" />
+        </StackLayout>
+
+        <!-- First Name -->
+        <StackLayout Spacing="4">
+            <VerticalStackLayout Spacing="8">
+                <Label FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Style="{StaticResource lblMedium}" Text="First Name" />
+                            <Span Text=" *" Style="{StaticResource lblMedium}" TextColor="{StaticResource AppRed}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Border Stroke="{Binding HasFirstNameError, Converter={StaticResource BoolToErrorColorConverter}}"
+                        Style="{StaticResource ExtBorder}">
+                    <ext:BorderlessEntry
+                        Text="{Binding FirstName}"
+                        Placeholder="Enter First Name"
+                        Keyboard="Text"
+                        ReturnType="Next"
+                        TextChanged="NameEntry_TextChanged"
+                        MaxLength="50"
+                        Style="{StaticResource extEntry}" />
+                </Border>
+            </VerticalStackLayout>
+            <Label FontSize="14"
+                   Text="{Binding FirstNameError}"
+                   TextColor="{StaticResource AppRed}"
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding HasFirstNameError}" />
+        </StackLayout>
+
+        <!-- Middle Name (optional) -->
+        <VerticalStackLayout Spacing="8">
+            <Label FontSize="14" Text="Middle Name" Style="{StaticResource lblMedium}" />
+            <Border Style="{StaticResource ExtBorder}">
+                <ext:BorderlessEntry
+                    Text="{Binding MiddleName}"
+                    Placeholder="Enter Middle Name"
+                    Keyboard="Text"
+                    ReturnType="Next"
+                    TextChanged="NameEntry_TextChanged"
+                    MaxLength="50"
+                    Style="{StaticResource extEntry}" />
+            </Border>
+        </VerticalStackLayout>
+
+        <!-- Last Name -->
+        <StackLayout Spacing="4">
+            <VerticalStackLayout Spacing="8">
+                <Label FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Last Name" Style="{StaticResource lblMedium}" />
+                            <Span Text=" *" Style="{StaticResource lblMedium}" TextColor="{StaticResource AppRed}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Border Stroke="{Binding HasLastNameError, Converter={StaticResource BoolToErrorColorConverter}}"
+                        Style="{StaticResource ExtBorder}">
+                    <ext:BorderlessEntry
+                        Text="{Binding LastName}"
+                        MaxLength="50"
+                        Keyboard="Text"
+                        ReturnType="Next"
+                        TextChanged="NameEntry_TextChanged"
+                        Placeholder="Enter Last Name"
+                        Style="{StaticResource extEntry}" />
+                </Border>
+            </VerticalStackLayout>
+            <Label FontSize="14"
+                   Text="{Binding LastNameError}"
+                   TextColor="{StaticResource AppRed}"
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding HasLastNameError}" />
+        </StackLayout>
+
+        <!-- Mobile Number -->
+        <StackLayout Spacing="4">
+            <VerticalStackLayout Spacing="8">
+                <Label FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Mobile Number" Style="{StaticResource lblMedium}" />
+                            <Span Text=" *" Style="{StaticResource lblMedium}" TextColor="{StaticResource AppRed}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Border Stroke="{Binding HasMobileNumberError, Converter={StaticResource BoolToErrorColorConverter}}"
+                        Style="{StaticResource ExtBorder}">
+                    <HorizontalStackLayout Spacing="5">
+                        <Label Text="+91"
+                               Style="{StaticResource lblRegular}"
+                               VerticalOptions="Center"
+                               FontSize="15" />
+                        <ext:BorderlessEntry
+                            Text="{Binding MobileNumber}"
+                            ReturnType="Next"
+                            Keyboard="Numeric"
+                            Placeholder="Enter Mobile Number"
+                            MaxLength="11"
+                            Style="{StaticResource extEntry}">
+                            <ext:BorderlessEntry.Behaviors>
+                                <toolkit:MaskedBehavior Mask="XXXXX XXXXX" />
+                            </ext:BorderlessEntry.Behaviors>
+                        </ext:BorderlessEntry>
+                    </HorizontalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+            <Label FontSize="14"
+                   Text="{Binding MobileNumberError}"
+                   TextColor="{StaticResource AppRed}"
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding HasMobileNumberError}" />
+        </StackLayout>
+
+        <!-- Email -->
+        <StackLayout Spacing="4">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Email Address" Style="{StaticResource lblMedium}" FontSize="14" />
+                <Border Stroke="{Binding HasEmailAddressError, Converter={StaticResource BoolToErrorColorConverter}}"
+                        Style="{StaticResource ExtBorder}">
+                    <ext:BorderlessEntry
+                        MaxLength="50"
+                        Text="{Binding EmailAddress}"
+                        ReturnType="Next"
+                        Keyboard="Email"
+                        Placeholder="Enter Email Address"
+                        Style="{StaticResource extEntry}" />
+                </Border>
+            </VerticalStackLayout>
+            <Label FontSize="14"
+                   Text="{Binding EmailAddressError}"
+                   TextColor="{StaticResource AppRed}"
+                   HorizontalOptions="Start"
+                   IsVisible="{Binding HasEmailAddressError}" />
+        </StackLayout>
+
+        <!-- DOB / Gender / Marital status / Occupation -->
+        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" RowSpacing="15" ColumnSpacing="10">
+
+            <!-- Date of birth -->
+            <StackLayout Spacing="4">
+                <VerticalStackLayout Spacing="8">
+                    <Label FontSize="14">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Date Of Birth" Style="{StaticResource lblMedium}" />
+                                <Span Text=" *" Style="{StaticResource lblMedium}" TextColor="{StaticResource AppRed}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Border Stroke="{Binding HasDateOfBirthError, Converter={StaticResource BoolToErrorColorConverter}}"
+                            Style="{StaticResource ExtBorder}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <ext:BorderlessDatePicker
+                                x:Name="dateOfBirthPicker"
+                                Grid.Column="0"
+                                Date="{Binding DateOfBirth, Mode=TwoWay}"
+                                MaximumDate="{x:Static sys:DateTime.Today}"
+                                Format="dd/MM/yyyy"
+                                TextColor="#1A1A1A"
+                                VerticalOptions="Center" />
+                            <Image Grid.Column="1"
+                                   HeightRequest="18"
+                                   WidthRequest="18"
+                                   Source="icon_calander"
+                                   VerticalOptions="Center">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="#000000" />
+                                </Image.Behaviors>
+                            </Image>
+                        </Grid>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDateOfBirthPickerTapped" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </VerticalStackLayout>
+                <Label FontSize="14"
+                       Text="{Binding DateOfBirthError}"
+                       TextColor="{StaticResource AppRed}"
+                       HorizontalOptions="Start"
+                       IsVisible="{Binding HasDateOfBirthError}" />
+            </StackLayout>
+
+            <!-- Gender -->
+            <StackLayout Grid.Column="1" Spacing="4">
+                <VerticalStackLayout Spacing="8">
+                    <Label FontSize="14">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Gender" Style="{StaticResource lblMedium}" />
+                                <Span Text=" *" Style="{StaticResource lblMedium}" TextColor="{StaticResource AppRed}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Border Padding="0,0,10,0"
+                            Stroke="{Binding HasGenderError, Converter={StaticResource BoolToErrorColorConverter}}"
+                            Style="{StaticResource ExtBorder}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <ext:BorderlessPicker
+                                x:Name="genderPicker"
+                                Grid.Column="0"
+                                ItemsSource="{Binding GenderList}"
+                                SelectedItem="{Binding Gender, Mode=TwoWay}"
+                                ItemDisplayBinding="{Binding .}"
+                                TextColor="#1A1A1A"
+                                FontSize="14"
+                                Margin="10,0"
+                                Title="Select Gender"
+                                VerticalOptions="Center" />
+                            <Image Grid.Column="1" Source="icon_downarrow" WidthRequest="15" />
+                        </Grid>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGenderPickerTapped" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </VerticalStackLayout>
+                <Label FontSize="14"
+                       Text="{Binding GenderError}"
+                       TextColor="{StaticResource AppRed}"
+                       HorizontalOptions="Start"
+                       IsVisible="{Binding HasGenderError}" />
+            </StackLayout>
+
+            <!-- Marital status -->
+            <VerticalStackLayout Grid.Row="1" Spacing="8">
+                <Label Text="Marital Status" Style="{StaticResource lblMedium}" FontSize="14" />
+                <Border Padding="0,0,10,0" Style="{StaticResource ExtBorder}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <ext:BorderlessPicker
+                            x:Name="maritalPicker"
+                            Grid.Column="0"
+                            ItemsSource="{Binding MaritalStatusList}"
+                            SelectedItem="{Binding MaritalStatus, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding .}"
+                            TextColor="#1A1A1A"
+                            FontSize="14"
+                            Margin="10,0"
+                            Title="Select Marital Status"
+                            VerticalOptions="Center" />
+                        <Image Grid.Column="1" Source="icon_downarrow" WidthRequest="15" />
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMaritalPickerTapped" />
+                    </Border.GestureRecognizers>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Occupation -->
+            <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="8">
+                <Label Text="Occupation" Style="{StaticResource lblMedium}" FontSize="14" />
+                <Border Style="{StaticResource ExtBorder}">
+                    <ext:BorderlessEntry
+                        MaxLength="50"
+                        TextChanged="NameEntry_TextChanged"
+                        Text="{Binding Occupation}"
+                        Placeholder="Enter Occupation"
+                        Style="{StaticResource extEntry}" />
+                </Border>
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Is Active -->
+        <StackLayout HorizontalOptions="Start" Orientation="Horizontal" Spacing="5">
+            <syncfusion:SfSwitch IsOn="{Binding IsActive, Mode=TwoWay}"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="Center">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="On">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <syncfusion:SwitchSettings
+                                            TrackHeightRequest="25"
+                                            ThumbBackground="#FF00AEEF"
+                                            ThumbStroke="#FF00AEEF"
+                                            TrackBackground="#2200AEEF"
+                                            TrackStroke="#FF00AEEF" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Off">
+                            <VisualState.Setters>
+                                <Setter Property="SwitchSettings">
+                                    <Setter.Value>
+                                        <syncfusion:SwitchSettings
+                                            TrackHeightRequest="25"
+                                            ThumbBackground="#808080"
+                                            ThumbStroke="#808080"
+                                            TrackBackground="#E8E1EB"
+                                            TrackStroke="#827B88" />
+                                    </Setter.Value>
+                                </Setter>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </syncfusion:SfSwitch>
+
+            <Label FontSize="15.5"
+                   HorizontalOptions="Start"
+                   Text="Is Active?"
+                   VerticalTextAlignment="Center"
+                   Style="{StaticResource lblRegular}"
+                   TextColor="{StaticResource AppBlack}"
+                   VerticalOptions="Center" />
+        </StackLayout>
+
+        <!-- Buttons: Add mode = Submit + Close, Edit mode = Save -->
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" IsVisible="{Binding IsAddMode}">
+            <Button Command="{Binding SubmitCommand}"
+                    Style="{StaticResource BtnPrimary}"
+                    Text="Submit" />
+            <Button Grid.Column="1"
+                    Background="White"
+                    Command="{Binding BackCommand}"
+                    Style="{StaticResource BtnSecondary}"
+                    Text="Close" />
+        </Grid>
+
+        <Button Command="{Binding SubmitCommand}"
+                Style="{StaticResource BtnPrimary}"
+                Text="Save"
+                IsVisible="{Binding IsEditMode}" />
+
+    </VerticalStackLayout>
+</ContentView>

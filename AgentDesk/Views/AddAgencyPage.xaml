@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AgentDesk.Views.AddAgencyPage"
+    xmlns:ext="clr-namespace:AgentDesk.CustomeControls"
+    xmlns:constants="clr-namespace:AgentDesk.Constants"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    NavigationPage.HasNavigationBar="False"
+    x:Name="page" 
+    BindingContext="{Binding ViewModel, Source={x:Reference page}}">
+    <Grid>
+        <Image Aspect="AspectFit" Source="img_bg" />
+        <Grid
+            Padding="20,0,20,10"
+            RowDefinitions="Auto,*"
+            RowSpacing="10">
+            <Grid
+                Grid.Row="0"
+                ColumnDefinitions="Auto,*">
+                <Image
+                    Grid.Column="0"
+                    Source="icon_back"
+                    Style="{StaticResource ImgSmall}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer
+                                    Command="{Binding BackCommand}" />
+                    </Image.GestureRecognizers>
+
+                </Image>
+
+                <Label
+                    Grid.Column="1"
+                    Text="{Binding Title}"
+                    FontSize="22"
+                    Style="{StaticResource lblMedium}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    TextColor="#000000" />
+
+            </Grid>
+
+            <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout Grid.Row="1" Spacing="15" Margin="0,0,0,0">
+                    <StackLayout Grid.Column="1" Spacing="4">
+                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                            <Label
+                                FontSize="14">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span 
+                                            Text="Agency Type"
+                                            Style="{StaticResource lblMedium}"/>
+                                        <Span
+                                            Text=" *"
+                                            Style="{StaticResource lblMedium}"
+                                            TextColor="{StaticResource AppRed}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Border
+                                Padding="0,0,10,0"
+                                Stroke="{Binding HasAgencyTypeError,Converter={StaticResource BoolToErrorColorConverter}}"
+                                Style="{StaticResource ExtBorder}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <ext:BorderlessPicker
+                                        x:Name="agencyTypePicker"
+                                        Grid.Column="0"
+                                        ItemsSource="{Binding AgencyTypeList}"
+                                        SelectedItem="{Binding AgencyType, Mode=TwoWay}"
+                                        ItemDisplayBinding="{Binding .,Converter={StaticResource EnumDisplayConverter}}"
+                                        TextColor="#1A1A1A" 
+                                        FontSize="14"
+                                        Margin="10,0"
+                                        Title="Select Agency Type"
+                                        VerticalOptions="Center"/>
+                                    <Image
+                                        Grid.Column="1"
+                                        Source="icon_downarrow"
+                                        WidthRequest="15" >
+                                    </Image>
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnAgentTypePickerTapped" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </VerticalStackLayout>
+                        <Label
+                            FontSize="14"
+                            Text="{Binding AgencyTypeError}"
+                            TextColor="{StaticResource AppRed}"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding HasAgencyTypeError}" />
+                    </StackLayout>
+
+                    <StackLayout Spacing="4">
+                        <VerticalStackLayout Spacing="8">
+                            <Label
+                                FontSize="14">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span 
+                                            Style="{StaticResource lblMedium}" 
+                                            Text="Code" />
+                                        <Span
+                                            Text=" *"
+                                            Style="{StaticResource lblMedium}" 
+                                            TextColor="{StaticResource AppRed}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Border
+                                Stroke="{Binding HasCodeError, Converter={StaticResource BoolToErrorColorConverter}}"
+                                Style="{StaticResource ExtBorder}">
+                                <ext:BorderlessEntry
+                                    Text="{Binding Code}"
+                                    Placeholder="Enter Code"
+                                    ReturnType="Next"
+                                    MaxLength="25"
+                                    Style="{StaticResource extEntry}" />
+                            </Border>
+                        </VerticalStackLayout>
+                        <Label
+                            FontSize="14"
+                            Text="{Binding CodeError}"
+                            TextColor="{StaticResource AppRed}"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding HasCodeError}" />
+                    </StackLayout>
+
+                    <StackLayout Spacing="4">
+                        <VerticalStackLayout Spacing="8">
+                            <Label
+                                FontSize="14">
+
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span 
+                                            Text="Name" 
+                                            Style="{StaticResource lblMedium}"/>
+                                        <Span
+                                            Text=" *"
+                                            Style="{StaticResource lblMedium}" 
+                                            TextColor="{StaticResource AppRed}" />
+
+                                    </FormattedString>
+                                </Label.FormattedText>
+
+                            </Label>
+
+                            <Border
+                                Stroke="{Binding HasNameError, Converter={StaticResource BoolToErrorColorConverter}}"
+                                Style="{StaticResource ExtBorder}">
+
+                                <ext:BorderlessEntry
+                                    Text="{Binding Name}"
+                                    MaxLength="20"
+                                    ReturnType="Next"
+                                    Placeholder="Enter Name"
+                                    TextChanged="NameEntry_TextChanged"
+                                    Style="{StaticResource extEntry}" />
+                            </Border>
+
+                        </VerticalStackLayout>
+                        <Label
+                            FontSize="14"
+                            Text="{Binding NameError}"
+                            TextColor="{StaticResource AppRed}"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding HasNameError}" />
+                    </StackLayout>
+
+                    <StackLayout Spacing="4">
+                        <VerticalStackLayout Spacing="8">
+                            <Label
+                                FontSize="14">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span 
+                                            Text="Mobile Number"
+                                            Style="{StaticResource lblMedium}"/>
+                                        <Span
+                                            Text=" *"
+                                            Style="{StaticResource lblMedium}" 
+                                            TextColor="{StaticResource AppRed}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Border
+                            
+                                Stroke="{Binding HasMobileNumberError, Converter={StaticResource BoolToErrorColorConverter}}"
+                                Style="{StaticResource ExtBorder}">
+                                <HorizontalStackLayout Spacing="5">
+                                    <!-- Country Code -->
+                                    <Label
+                                        Text="+91"
+                                        Style="{StaticResource lblRegular}"
+                                        VerticalOptions="Center"
+                                        FontSize="15" />
+
+                                    <!-- Mobile Number -->
+                                    <ext:BorderlessEntry
+                                        Text="{Binding MobileNumber, Mode=TwoWay}"
+                                        Keyboard="Numeric"
+                                        ReturnType="Next"
+                                        Placeholder="Enter Mobile Number"
+                                        MaxLength="11"
+                                        Style="{StaticResource extEntry}" >
+                                        <ext:BorderlessEntry.Behaviors>
+                                            <toolkit:MaskedBehavior Mask="XXXXX XXXXX" />
+                                        </ext:BorderlessEntry.Behaviors>
+                                    </ext:BorderlessEntry>
+
+                                </HorizontalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                        <Label
+                            FontSize="14"
+                            Text="{Binding MobileNumberError}"
+                            TextColor="{StaticResource AppRed}"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding HasMobileNumberError}" />
+                    </StackLayout>
+
+                    <StackLayout Spacing="4">
+                        <VerticalStackLayout Spacing="8">
+
+                            <Label
+                                FontSize="14">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span 
+                                            Text="Email Address" 
+                                            Style="{StaticResource lblMedium}"/>
+
+                                        <Span
+                                            Text=" *"
+                                            Style="{StaticResource lblMedium}" 
+                                            TextColor="{StaticResource AppRed}" />
+
+                                    </FormattedString>
+                                </Label.FormattedText>
+
+                            </Label>
+
+                            <Border
+                            
+                                Stroke="{Binding HasEmailAddressError, Converter={StaticResource BoolToErrorColorConverter}}"
+                                Style="{StaticResource ExtBorder}">
+
+                                <ext:BorderlessEntry
+                                    Text="{Binding EmailAddress}"
+                                    ReturnType="Next"
+                                    Keyboard="Email"
+                                    MaxLength="50"
+                                    Placeholder="Enter Email Address"
+                                    Style="{StaticResource extEntry}" />
+                            </Border>
+
+                        </VerticalStackLayout>
+                        <Label
+                            FontSize="14"
+                            Text="{Binding EmailAddressError}"
+                            TextColor="{StaticResource AppRed}"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding HasEmailAddressError}" />
+                    </StackLayout>
+
+                    <StackLayout Spacing="4">
+                        <VerticalStackLayout Spacing="8">
+
+                            <Label
+                                FontSize="14">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span 
+                                            Text="Company Name" 
+                                            Style="{StaticResource lblMedium}"/>
+
+                                        <Span
+                                            Text=" *"
+                                            Style="{StaticResource lblMedium}" 
+                                            TextColor="{StaticResource AppRed}" />
+
+                                    </FormattedString>
+                                </Label.FormattedText>
+
+                            </Label>
+
+                            <Border
+                            
+                                Stroke="{Binding HasCompanyNameError, Converter={StaticResource BoolToErrorColorConverter}}"
+                                Style="{StaticResource ExtBorder}">
+
+                                <ext:BorderlessEntry
+                                    Text="{Binding CompanyName}"
+                                    MaxLength="150"
+                                    ReturnType="Done"
+                                    TextChanged="NameEntry_TextChanged"
+                                    Placeholder="Enter Company Name"
+                                    Style="{StaticResource extEntry}" />
+                            </Border>
+
+                        </VerticalStackLayout>
+                        <Label
+                            FontSize="14"
+                            Text="{Binding CompanyNameError}"
+                            TextColor="{StaticResource AppRed}"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding HasCompanyNameError}" />
+                    </StackLayout>
+
+                    <StackLayout
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        Spacing="5">
+                        <syncfusion:SfSwitch
+                            IsOn="{Binding IsActive, Mode=TwoWay}"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+
+                                    <VisualState x:Name="On">
+                                        <VisualState.Setters>
+                                            <Setter Property="SwitchSettings">
+                                                <Setter.Value>
+                                                    <syncfusion:SwitchSettings
+                                                        TrackHeightRequest="25"
+                                                        ThumbBackground="#FF00AEEF"
+                                                        ThumbStroke="#FF00AEEF"
+                                                        TrackBackground="#2200AEEF"
+                                                        TrackStroke="#FF00AEEF" />
+                                                    <!--<syncfusion:SwitchSettings
+                                                        TrackHeightRequest="25"
+                                                        ThumbBackground="#FF029BFF"
+                                                        ThumbStroke="#FF029BFF"
+                                                        TrackBackground="#22029BFF"
+                                                        TrackStroke="#FF029BFF" />-->
+                                                </Setter.Value>
+                                            </Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Off">
+                                        <VisualState.Setters>
+                                            <Setter Property="SwitchSettings">
+                                                <Setter.Value>
+                                                    <syncfusion:SwitchSettings
+                                                        TrackHeightRequest="25"
+                                                        ThumbBackground="#808080"
+                                                        ThumbStroke="#808080"
+                                                        TrackBackground="#E8E1EB"
+                                                        TrackStroke="#827B88" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                        </syncfusion:SfSwitch>
+
+                        <Label
+                             FontSize="15.5"
+                             HorizontalOptions="Start"
+                             Text="Is Active?"
+                             VerticalTextAlignment="Center"
+                             Style="{StaticResource lblRegular}"
+                             TextColor="{StaticResource AppBlack}"
+                             VerticalOptions="Center" />
+                    </StackLayout>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button
+                            Command="{Binding SubmitCommand}"
+                            Style="{StaticResource BtnPrimary}"
+                            Text="Submit" />
+                        <Button
+                            Background="White"
+                            Grid.Column="1"
+                            Command="{Binding BackCommand}"
+                            Style="{StaticResource BtnSecondary}"
+                            Text="Close" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

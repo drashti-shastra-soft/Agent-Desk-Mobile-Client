@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:AgentDesk.CustomeControls"
+    x:Class="AgentDesk.Views.Tabs.FinancialTabView">
+
+    <!-- BindingContext = FinancialTabViewModel -->
+    <VerticalStackLayout Spacing="15">
+        <ext:LabeledEntry Title="Annual Income" IsRequired="True"
+                          Placeholder="Enter Your Income" MaxLength="12" Keyboard="Numeric"
+                          Text="{Binding AnnualIncome}"
+                          ErrorText="{Binding AnnualIncomeError}"
+                          HasError="{Binding HasAnnualIncomeError}" />
+
+        <ext:LabeledEntry Title="Existing Loans EMI" IsRequired="True"
+                          Placeholder="Enter Loans EMI" MaxLength="12" Keyboard="Numeric"
+                          Text="{Binding ExistingLoansEmi}"
+                          ErrorText="{Binding ExistingLoansEmiError}"
+                          HasError="{Binding HasExistingLoansEmiError}" />
+
+        <ext:LabeledEntry Title="Tax Saving Investments" IsRequired="True"
+                          Placeholder="Enter Investments" MaxLength="12" Keyboard="Numeric"
+                          Text="{Binding TaxSavingInvestments}"
+                          ErrorText="{Binding TaxSavingInvestmentsError}"
+                          HasError="{Binding HasTaxSavingInvestmentsError}" />
+
+        <ext:LabeledEntry Title="Bank Name" IsRequired="True"
+                          Placeholder="Enter Bank Name"
+                          Text="{Binding BankName}"
+                          ErrorText="{Binding BankNameError}"
+                          HasError="{Binding HasBankNameError}" />
+
+        <ext:LabeledEntry Title="Account Holder" IsRequired="True"
+                          Placeholder="Enter Account Name"
+                          Text="{Binding AccountHolder}"
+                          ErrorText="{Binding AccountHolderError}"
+                          HasError="{Binding HasAccountHolderError}" />
+
+        <ext:LabeledEntry Title="Account Number" IsRequired="True"
+                          Placeholder="Enter Account Number" MaxLength="18" Keyboard="Numeric"
+                          Text="{Binding AccountNumber}"
+                          ErrorText="{Binding AccountNumberError}"
+                          HasError="{Binding HasAccountNumberError}" />
+
+        <ext:LabeledEntry Title="IFSC Code" IsRequired="True"
+                          Placeholder="Enter IFSC Code" MaxLength="11"
+                          Text="{Binding IfscCode}"
+                          ErrorText="{Binding IfscCodeError}"
+                          HasError="{Binding HasIfscCodeError}" />
+
+        <!-- Account Type -->
+        <VerticalStackLayout Spacing="8">
+            <HorizontalStackLayout Spacing="0">
+                <Label Text="Account Type" Style="{StaticResource lblMedium}" FontSize="14" />
+                <Label Text=" *" Style="{StaticResource lblMedium}" FontSize="14"
+                       TextColor="{StaticResource AppRed}" />
+            </HorizontalStackLayout>
+
+            <Border Padding="0,0,10,0" Style="{StaticResource ExtBorder}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <ext:BorderlessPicker
+                        x:Name="accountTypePicker"
+                        Grid.Column="0"
+                        ItemsSource="{Binding AccountTypeList}"
+                        SelectedItem="{Binding AccountType, Mode=TwoWay}"
+                        TextColor="#1A1A1A"
+                        FontSize="14"
+                        Margin="10,0"
+                        Title="Select Account Type"
+                        VerticalOptions="Center" />
+                    <Image Grid.Column="1" Source="icon_downarrow" WidthRequest="15" />
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnAccountTypePickerTapped" />
+                </Border.GestureRecognizers>
+            </Border>
+        </VerticalStackLayout>
+
+        <Button Text="Save"
+                Margin="0,20,0,10"
+                Command="{Binding SaveCommand}"
+                Style="{StaticResource BtnPrimary}" />
+    </VerticalStackLayout>
+</ContentView>

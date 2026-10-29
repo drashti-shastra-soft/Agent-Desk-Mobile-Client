@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:tabs="clr-namespace:AgentDesk.Views.Tabs"
+    x:Class="AgentDesk.Views.AddClientPage"
+    NavigationPage.HasNavigationBar="False"
+    x:Name="page"
+    BindingContext="{Binding ViewModel, Source={x:Reference page}}">
+
+    <Grid>
+        <Image Aspect="AspectFit" Source="img_bg" />
+
+        <Grid Padding="20,0,20,10" RowDefinitions="Auto,Auto,*" RowSpacing="10">
+
+            <!-- Row 0: header -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,*">
+                <Image Grid.Column="0"
+                       Source="icon_back"
+                       Style="{StaticResource ImgSmall}"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Label Grid.Column="1"
+                       Text="{Binding Title}"
+                       FontSize="22"
+                       Style="{StaticResource lblMedium}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#000000" />
+            </Grid>
+
+            <!-- Row 1: tab bar (Edit mode only) -->
+            <ScrollView Grid.Row="1"
+                        Margin="0,0,0,10"
+                        Orientation="Horizontal"
+                        HorizontalScrollBarVisibility="Never"
+                        IsVisible="{Binding IsEditMode}">
+                <HorizontalStackLayout Spacing="15"
+                                       BindableLayout.ItemsSource="{Binding Tabs}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Title}"
+                                       FontSize="16"
+                                       Style="{StaticResource lblMedium}"
+                                       TextColor="#9B9B9B">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label"
+                                                     Binding="{Binding IsSelected}"
+                                                     Value="True">
+                                            <Setter Property="TextColor" Value="#00A0E3" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+
+                                <BoxView HeightRequest="3"
+                                         CornerRadius="2"
+                                         Color="#00A0E3"
+                                         IsVisible="{Binding IsSelected}" />
+
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={x:Reference page}, Path=BindingContext.SelectTabCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </VerticalStackLayout.GestureRecognizers>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <!-- Row 2: tab content.
+                 IMPORTANT: IsVisible lives on a wrapper, the child tab view gets the
+                 BindingContext. (If both are on the same element, IsVisible would be
+                 resolved against the child view model and break.) -->
+            <ScrollView Grid.Row="2" VerticalScrollBarVisibility="Never">
+                <Grid>
+                    <VerticalStackLayout IsVisible="{Binding IsClientTab}">
+                        <tabs:ClientTabView />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout IsVisible="{Binding IsIdentificationTab}">
+                        <tabs:IdentificationTabView BindingContext="{Binding IdentificationVm}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout IsVisible="{Binding IsFinancialTab}">
+                        <tabs:FinancialTabView BindingContext="{Binding FinancialVm}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout IsVisible="{Binding IsHealthTab}">
+                        <tabs:HealthTabView BindingContext="{Binding HealthVm}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout IsVisible="{Binding IsDocumentsTab}">
+                        <tabs:DocumentsTabView BindingContext="{Binding DocumentsVm}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </ScrollView>
+
+        </Grid>
+    </Grid>
+</ContentPage>

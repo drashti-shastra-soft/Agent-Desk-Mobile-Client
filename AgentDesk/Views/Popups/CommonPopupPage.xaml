@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopup:PopupPage 
+    x:Class="AgentDesk.Views.Popups.CommonPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mopup="clr-namespace:Mopups.Pages;assembly=Mopups"
+    CloseWhenBackgroundIsClicked="False"
+    Background="#80000000"
+    x:Name="page"
+    BindingContext="{Binding ViewModel, Source={x:Reference page}}">
+    <Grid
+        Margin="15,0"
+        Background="Transparent"
+        VerticalOptions="Center">
+
+        <Border
+            Margin="0"
+            Padding="0"
+            Background="White"
+            StrokeShape="{RoundRectangle CornerRadius=10}">
+
+            <Border.Shadow>
+                <Shadow
+                    Brush="Black"
+                    Opacity="0.05"
+                    Radius="5"
+                    Offset="0,2" />
+            </Border.Shadow>
+
+            <Grid
+                Margin="0"
+                Padding="0"
+                RowDefinitions="Auto,150">
+
+                <!-- Popup header -->
+                <Grid
+                    Padding="10"
+                    Background="{StaticResource AppPrimary}"
+                    ColumnDefinitions="*,Auto">
+
+                    <Label
+                        Grid.Column="0"
+                        FontSize="18"
+                        Style="{StaticResource lblBold}"
+                        Text="{Binding Title}"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+                </Grid>
+
+                <!-- Popup message and buttons -->
+                <Grid
+                    Grid.Row="1"
+                    Padding="15,15,15,10"
+                    RowDefinitions="*,Auto"
+                    RowSpacing="15">
+
+                    <Label
+                        Grid.Row="0"
+                        FontSize="18"
+                        Style="{StaticResource lblRegular}"
+                        Text="{Binding Message}"
+                        TextColor="{StaticResource AppBlack}"
+                        VerticalTextAlignment="Center" />
+
+                    <Grid
+                        Grid.Row="1"
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="15">
+
+                        <Button
+                            Grid.Column="0"
+                            Style="{StaticResource BtnPrimary}"
+                            Text="Yes"
+                            Command="{Binding YesCommand}" />
+
+                        <Button
+                            Grid.Column="1"
+                            Background="#6c757d"
+                            Style="{StaticResource BtnPrimary}"
+                            Text="No"
+                            Command="{Binding NoCommand}" />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</mopup:PopupPage>

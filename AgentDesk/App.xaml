@@ -1,0 +1,27 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:AgentDesk.Converters"
+             xmlns:controls="clr-namespace:AgentDesk.CustomeControls"
+             xmlns:local="clr-namespace:AgentDesk"
+             x:Class="AgentDesk.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:RememberMeIconConverter x:Key="RememberMeIconConverter" />
+            <converters:PasswordIconConverter x:Key="PasswordIconConverter" />
+            <converters:BoolToErrorColorConverter x:Key="BoolToErrorColorConverter" />
+            <converters:StatusTextConverter x:Key="StatusTextConverter" />
+            <converters:StatusBackgroundConverter x:Key="StatusBackgroundConverter" />
+            <converters:StatusForegroundConverter x:Key="StatusForegroundConverter" />
+            <converters:NullOrEmptyToDashConverter x:Key="NullOrEmptyToDashConverter" />
+            <converters:EnumDisplayConverter x:Key="EnumDisplayConverter" />
+            <!-- Custom Menu Card Border -->
+            <controls:MenuCardDrawable x:Key="MenuCardDrawable" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

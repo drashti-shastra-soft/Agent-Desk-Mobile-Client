@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AgentDesk.Views.SplashPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="False">
+    <Grid BackgroundColor="White">
+
+        <Image
+            Source="img_bg.svg"
+            Aspect="AspectFit"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" />
+
+        <!--<Image
+             Source="frame"
+             Aspect="AspectFit"
+             HorizontalOptions="Center"
+             VerticalOptions="End" />-->
+
+        <Image
+            Source="agentdesk_appicon.svg"
+            WidthRequest="260"
+            HeightRequest="72"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Margin="0,0,0,80" />
+
+        <HorizontalStackLayout
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            Margin="0,0,0,10"
+            Spacing="3">
+
+            <Label
+                Text="Powered By"
+                FontSize="14"
+                Style="{StaticResource lblRegular}"
+                VerticalOptions="Center" />
+
+            <Label
+                Text="Shastra Soft"
+                FontSize="14"
+                Style="{StaticResource lblMedium}"
+                TextColor="#0078B4"
+                VerticalOptions="Center" />
+
+        </HorizontalStackLayout>
+
+    </Grid>
+
+</ContentPage>

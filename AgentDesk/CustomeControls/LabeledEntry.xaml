@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ext="clr-namespace:AgentDesk.CustomeControls"
+              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AgentDesk.CustomeControls.LabeledEntry"
+             x:Name="root">
+    <VerticalStackLayout Spacing="4">
+        <HorizontalStackLayout Spacing="0">
+            <Label Text="{Binding Title, Source={x:Reference root}}"
+                   Style="{StaticResource lblMedium}"
+                   FontSize="14" />
+            <Label Text=" *"
+                   Style="{StaticResource lblMedium}"
+                   TextColor="{StaticResource AppRed}"
+                   FontSize="14"
+                   IsVisible="{Binding IsRequired, Source={x:Reference root}}" />
+        </HorizontalStackLayout>
+
+        <Border Style="{StaticResource ExtBorder}"
+                Stroke="{Binding HasError, Source={x:Reference root}, Converter={StaticResource BoolToErrorColorConverter}}">
+            <Grid>
+                <ext:BorderlessEntry
+                    x:Name="innerEntry"
+                    Text="{Binding Text, Source={x:Reference root}, Mode=TwoWay}"
+                    Placeholder="{Binding Placeholder, Source={x:Reference root}}"
+                    Keyboard="{Binding Keyboard, Source={x:Reference root}}"
+                    MaxLength="{Binding MaxLength, Source={x:Reference root}}"
+                    IsVisible="{Binding IsSingleLine, Source={x:Reference root}}"
+                    Style="{StaticResource extEntry}" >
+                </ext:BorderlessEntry>
+
+                <!-- If you have a BorderlessEditor, use it here instead of Editor -->
+                <Editor
+                    Text="{Binding Text, Source={x:Reference root}, Mode=TwoWay}"
+                    Placeholder="{Binding Placeholder, Source={x:Reference root}}"
+                    MaxLength="{Binding MaxLength, Source={x:Reference root}}"
+                    IsVisible="{Binding IsMultiline, Source={x:Reference root}}"
+                    HeightRequest="90"
+                    FontSize="14"
+                    BackgroundColor="Transparent" />
+            </Grid>
+        </Border>
+
+        <Label FontSize="14"
+               TextColor="{StaticResource AppRed}"
+               HorizontalOptions="Start"
+               Text="{Binding ErrorText, Source={x:Reference root}}"
+               IsVisible="{Binding HasError, Source={x:Reference root}}" />
+    </VerticalStackLayout>
+</ContentView>

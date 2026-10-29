@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:AgentDesk.CustomeControls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="AgentDesk.Views.Tabs.IdentificationTabView">
+
+    <!-- BindingContext = IdentificationTabViewModel (set in AddClientPage) -->
+    <VerticalStackLayout Spacing="15">
+        <!--<ext:LabeledEntry Title="PAN Number" IsRequired="True"
+                          Placeholder="Enter PAN Number" MaxLength="10" Mask="AAAAA0000A"
+                          Text="{Binding PanNumber}"
+                          ErrorText="{Binding PanNumberError}"
+                          HasError="{Binding HasPanNumberError}" />-->
+
+        <!-- PAN Number -->
+        <StackLayout Spacing="4">
+            <VerticalStackLayout Spacing="8">
+                <Label FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span
+                                Text="PAN Number"
+                                Style="{StaticResource lblMedium}" />
+                            <Span
+                                Text=" *"
+                                Style="{StaticResource lblMedium}"
+                                TextColor="{StaticResource AppRed}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Border
+                    Stroke="{Binding HasPanNumberError,
+                        Converter={StaticResource BoolToErrorColorConverter}}"
+                    Style="{StaticResource ExtBorder}">
+
+                    <ext:BorderlessEntry
+                        Text="{Binding PanNumber}"
+                        Placeholder="Enter PAN Number"
+                        Keyboard="Text"
+                        MaxLength="10"
+                        ReturnType="Next"
+                        TextChanged="PanNumber_TextChanged"
+                        Style="{StaticResource extEntry}" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Label
+                FontSize="14"
+                Text="{Binding PanNumberError}"
+                TextColor="{StaticResource AppRed}"
+                HorizontalOptions="Start"
+                IsVisible="{Binding HasPanNumberError}" />
+        </StackLayout>
+
+        <ext:LabeledEntry Title="Aadhar Number" IsRequired="True"
+                          Placeholder="Enter Aadhar Number" MaxLength="14" Keyboard="Numeric" Mask="XXXX XXXX XXXX"
+                          Text="{Binding AadharNumber}"
+                          ErrorText="{Binding AadharNumberError}"
+                          HasError="{Binding HasAadharNumberError}" />
+
+        <ext:LabeledEntry Title="Nominee Name" IsRequired="True"
+                          Placeholder="Enter Nominee Name"
+                          Text="{Binding NomineeName}"
+                          ErrorText="{Binding NomineeNameError}"
+                          HasError="{Binding HasNomineeNameError}" />
+
+        <ext:LabeledEntry Title="Nominee Relationship" IsRequired="True"
+                          Placeholder="Enter Relationship Name"
+                          Text="{Binding NomineeRelationship}"
+                          ErrorText="{Binding NomineeRelationshipError}"
+                          HasError="{Binding HasNomineeRelationshipError}" />
+
+        <!--<ext:LabeledEntry Title="Nominee Mobile Number" IsRequired="True"
+                          Placeholder="Enter Mobile Number" MaxLength="10" Keyboard="Numeric"
+                          Text="{Binding NomineeMobileNumber}"
+                          ErrorText="{Binding NomineeMobileNumberError}"
+                          HasError="{Binding HasNomineeMobileNumberError}" />-->
+
+        <!-- Mobile Number -->
+        <StackLayout Spacing="4">
+            <VerticalStackLayout Spacing="8">
+                <Label FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Mobile Number" Style="{StaticResource lblMedium}" />
+                            <Span Text=" *" Style="{StaticResource lblMedium}" TextColor="{StaticResource AppRed}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Border Stroke="{Binding HasNomineeMobileNumberError, Converter={StaticResource BoolToErrorColorConverter}}"
+                     Style="{StaticResource ExtBorder}">
+                    <HorizontalStackLayout Spacing="5">
+                        <Label Text="+91"
+                            Style="{StaticResource lblRegular}"
+                            VerticalOptions="Center"
+                            FontSize="15" />
+                        <ext:BorderlessEntry
+                         Text="{Binding nomineeMobileNumber}"
+                         ReturnType="Next"
+                         Keyboard="Numeric"
+                         Placeholder="Enter Mobile Number"
+                         MaxLength="11"
+                         Style="{StaticResource extEntry}">
+                            <ext:BorderlessEntry.Behaviors>
+                                <toolkit:MaskedBehavior Mask="XXXXX XXXXX" />
+                            </ext:BorderlessEntry.Behaviors>
+                        </ext:BorderlessEntry>
+                    </HorizontalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+            <Label FontSize="14"
+                Text="{Binding NomineeMobileNumberError}"
+                TextColor="{StaticResource AppRed}"
+                HorizontalOptions="Start"
+                IsVisible="{Binding HasNomineeMobileNumberError}" />
+        </StackLayout>
+
+        <Button Text="Save"
+                Margin="0,20,0,10"
+                Command="{Binding SaveCommand}"
+                Style="{StaticResource BtnPrimary}" />
+    </VerticalStackLayout>
+</ContentView>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopup:PopupPage  
+    x:Class="AgentDesk.Views.Popups.UpdateFupPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mopup="clr-namespace:Mopups.Pages;assembly=Mopups"
+    xmlns:ext="clr-namespace:AgentDesk.CustomeControls"
+    CloseWhenBackgroundIsClicked="False"
+    Background="#80000000"
+    x:Name="page"
+    BindingContext="{Binding ViewModel, Source={x:Reference page}}">
+    <Border
+        WidthRequest="330"
+        Padding="0"
+        Background="White"
+        Stroke="#BFE3F5"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 12"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <Grid RowDefinitions="Auto,Auto,1,Auto">
+
+            <!-- Blue header -->
+            <Grid
+                Grid.Row="0"
+                BackgroundColor="#1E9BD7"
+                Padding="15">
+                <Label
+                    Text="Update Policy Premium Paid (FUP)"
+                    Style="{StaticResource lblBold}"
+                    FontSize="15"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+            </Grid>
+
+            <!-- Body -->
+            <VerticalStackLayout Grid.Row="1" Padding="14,0" Spacing="0">
+
+                <!-- Policy -->
+                <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                    <Label
+                        Text="Policy"
+                        Style="{StaticResource lblMedium}"
+                        TextColor="#1E9BD7"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding PolicyNumber}"
+                        Style="{StaticResource lblRegular}"
+                        TextColor="#1A1A1A"
+                        VerticalOptions="Center" />
+                </Grid>
+                <BoxView HeightRequest="1" Color="#EEEEEE" />
+
+                <!-- Old FUP -->
+                <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                    <Label
+                        Text="Old FUP"
+                        Style="{StaticResource lblMedium}"
+                        TextColor="#1E9BD7"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding OldFup}"
+                        Style="{StaticResource lblRegular}"
+                        TextColor="#1A1A1A"
+                        VerticalOptions="Center" />
+                </Grid>
+                <BoxView HeightRequest="1" Color="#EEEEEE" />
+
+                <!-- New FUP -->
+                <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                    <Label
+                        Text="New FUP"
+                        Style="{StaticResource lblMedium}"
+                        TextColor="#1E9BD7"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding NewFup}"
+                        Style="{StaticResource lblRegular}"
+                        TextColor="#1A1A1A"
+                        VerticalOptions="Center" />
+                    <!--Text="{Binding NewFup, StringFormat='{0} (New FUP)'}"-->
+                </Grid>
+                <BoxView HeightRequest="1" Color="#EEEEEE" />
+
+                <!-- Payment Mode -->
+                <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                    <Label
+                        Text="Payment Mode"
+                        Style="{StaticResource lblMedium}"
+                        TextColor="#1E9BD7"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding PayMode}"
+                        Style="{StaticResource lblRegular}"
+                        TextColor="#1A1A1A"
+                        VerticalOptions="Center" />
+                </Grid>
+                <BoxView HeightRequest="1" Color="#EEEEEE" />
+
+                <!-- Premium Paid For -->
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Padding="0,10" >
+                    <Label
+                        Text="Premium Paid For"
+                        Style="{StaticResource lblMedium}"
+                        TextColor="#1E9BD7"
+                        VerticalOptions="Center" />
+                    <Border
+                        Grid.Column="1"
+                        Stroke="#BFE3F5"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="8,0"
+                        HeightRequest="40">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <ext:BorderlessPicker
+                                x:Name="premiumPaidPicker"
+                                ItemsSource="{Binding PremiumPaidForOptions}"
+                                SelectedItem="{Binding SelectedPremiumPaidFor, Mode=TwoWay}"
+                                FontSize="14"
+                                TextColor="#1A1A1A"
+                                VerticalOptions="Center" />
+                            <Image Grid.Column="1" Source="icon_downarrow" WidthRequest="12" HeightRequest="12" />
+                        </Grid>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPremiumPaidTapped" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </Grid>
+                <BoxView HeightRequest="1" Color="#EEEEEE" />
+
+                <!-- Payment Details -->
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Padding="0,10" RowDefinitions="Auto,Auto" RowSpacing="2">
+                    <!--<Label
+                        Text="Payment Amount"
+                        Style="{StaticResource lblMedium}"
+                        TextColor="#1E9BD7"
+                        VerticalOptions="Center" />-->
+                    <Label
+                        VerticalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span 
+                                    TextColor="#1E9BD7"
+                                    Text="Payment Amount"
+                                    Style="{StaticResource lblMedium}"/>
+                                <Span
+                                    Text=" *"
+                                    Style="{StaticResource lblMedium}"
+                                    TextColor="{StaticResource AppRed}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Border
+                        Grid.Column="1"
+                        Stroke="#BFE3F5"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="8,0"
+                        HeightRequest="40">
+                        <ext:BorderlessEntry
+                            Text="{Binding PaymentDetails}"
+                            Keyboard="Numeric"
+                            Placeholder="Payment Amount"
+                            FontSize="14"
+                            TextColor="#1A1A1A"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+        Grid.Row="1"
+        Grid.Column="1"
+        Text="{Binding PaymentDetailsError}"
+        IsVisible="{Binding HasPaymentDetailsError}"
+        TextColor="{StaticResource AppRed}"
+        FontSize="14" />
+                    <!--<Border
+                        Grid.Column="1"
+                        Background="#F5F5F5"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="8,0"
+                        HeightRequest="40">
+                        <ext:BorderlessEntry
+                            Text="{Binding PaymentDetails}"
+                            Placeholder="Payment Details"
+                            FontSize="14"
+                            TextColor="#1A1A1A"
+                            VerticalOptions="Center" />
+                    </Border>-->
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Divider -->
+            <BoxView
+                Grid.Row="2"
+                HeightRequest="1"
+                Color="#BFE3F5" />
+
+            <!-- Footer buttons -->
+            <Grid
+                Grid.Row="3"
+                ColumnDefinitions="*,1,*"
+                Padding="0,0">
+
+                <Button
+                    Grid.Column="0"
+                    Text="CANCEL"
+                    BackgroundColor="Transparent"
+                    TextColor="#E53935"
+                    FontSize="14"
+                    Command="{Binding CancelCommand}" />
+
+                <BoxView
+                    Grid.Column="1"
+                    WidthRequest="1"
+                    Margin="0,8"
+                    Color="#1E9BD7" />
+
+                <Button
+                    Grid.Column="2"
+                    Text="UPDATE"
+                    BackgroundColor="Transparent"
+                    TextColor="#1E9BD7"
+                    FontSize="14"
+                    Command="{Binding UpdateCommand}" />
+            </Grid>
+        </Grid>
+    </Border>
+</mopup:PopupPage>

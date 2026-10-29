@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AgentDesk.Views.ClientPage"
+    NavigationPage.HasNavigationBar="False"
+    x:Name="page"
+    BindingContext="{Binding ViewModel , Source={x:Reference page}}">
+    <Grid>
+        <Image Aspect="AspectFit" Source="img_bg" IsVisible="False" />
+        <RefreshView
+            RefreshColor="{StaticResource AppPrimary}"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+            <Grid RowDefinitions="Auto,*" Padding="0,0,0,20">
+                <Grid
+                    Padding="15,0,15,10"
+                    Grid.Row="0"
+                    ColumnDefinitions="Auto,*">
+                    <Image
+                        Grid.Column="0"
+                        Source="icon_back"
+                        Style="{StaticResource ImgSmall}"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BackCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <Label
+                        Grid.Column="1"
+                        Text="Client"
+                        FontSize="22"
+                        Style="{StaticResource lblMedium}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Center" />
+                </Grid>
+
+                <CollectionView
+                    Grid.Row="1"
+                    ItemsSource="{Binding ClientList}"
+                    SelectionMode="None"
+                    VerticalScrollBarVisibility="Never">
+
+                    <!--<CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>-->
+
+                    <!--Empty State-->
+
+                    <CollectionView.EmptyView>
+                        <!--<Grid
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill">-->
+                        <VerticalStackLayout
+                            Spacing="12"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                            <Border
+                                Background="#E0F5FF"
+                                HorizontalOptions="Center"
+                                StrokeShape="RoundRectangle 36"
+                                StrokeThickness="0"
+                                HeightRequest="72"
+                                WidthRequest="72">
+                                <Image
+                                    Source="client_blue_icon.png"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    HeightRequest="36"
+                                    WidthRequest="36">
+                                </Image>
+                            </Border>
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Style="{StaticResource lblMedium}"
+                                Text="No Client Found"
+                                TextColor="#1A1A1A" />
+
+                        </VerticalStackLayout>
+                        <!--</Grid>-->
+                    </CollectionView.EmptyView>
+
+                    <!--<CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="15,0" Margin="0,10,0,0">
+                                <Border
+                                    Grid.Row="1"
+                                    Padding="12"
+                                    Background="White"
+                                    Stroke="#EFEFEF"
+                                    StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="1">
+                                    <Border.Shadow>
+                                        <Shadow
+                                            Brush="Black"
+                                            Opacity="0.05"
+                                            Radius="8"
+                                            Offset="0,2" />
+                                    </Border.Shadow>
+
+                                    <Grid
+                                        RowDefinitions="Auto,1,Auto"
+                                        RowSpacing="8">
+
+                                        -->
+                    <!-- Group name, status and actions -->
+                    <!--
+                                        <Grid
+                                             Grid.Row="0"
+                                             ColumnDefinitions="*,Auto,Auto,Auto"
+                                             ColumnSpacing="8">
+
+                                            <VerticalStackLayout
+                                                Grid.Column="0"
+                                                Spacing="4"
+                                                VerticalOptions="Center">
+
+                                                <Label
+                                                    Text="{Binding Group, StringFormat='Group: {0}'}"
+                                                    Style="{StaticResource lblMedium }"
+                                                    LineBreakMode="TailTruncation" />
+
+                                                <HorizontalStackLayout Spacing="10">
+                                                    -->
+                    <!--<Label
+                                                        Text="{Binding Code, StringFormat='Code: {0}'}"
+                                                        FontSize="12"
+                                                        Style="{StaticResource lblRegular}"
+                                                        TextColor="{StaticResource AppLightGray}"
+                                                        VerticalTextAlignment="Center" />-->
+                    <!--
+                                                    <Border
+                                                        Padding="5,0"
+                                                        BackgroundColor="{Binding IsActive, Converter={StaticResource StatusBackgroundConverter}}"
+                                                        StrokeThickness="0"
+                                                        StrokeShape="RoundRectangle 4">
+
+                                                        <Label
+                                                            Text="{Binding IsActive, Converter={StaticResource StatusTextConverter}}"
+                                                            FontSize="12"
+                                                            Style="{StaticResource lblMedium}"
+                                                            TextColor="{Binding IsActive, Converter={StaticResource StatusForegroundConverter}}"
+                                                            HorizontalOptions="Center"
+                                                            VerticalOptions="Center"
+                                                            VerticalTextAlignment="Center" />
+                                                    </Border>
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                            <Border
+                                                Grid.Column="1"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Stroke="#EEEEEE"
+                                                StrokeThickness="1"
+                                                StrokeShape="RoundRectangle 6"
+                                                VerticalOptions="Center">
+
+                                                <ImageButton
+                                                    Source="location_icon.png"
+                                                    BackgroundColor="Transparent"
+                                                    Padding="5"
+                                                    Aspect="AspectFit"
+                                                    Command="{Binding Source={x:Reference page}, Path=ViewModel.LocationCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Border>
+
+
+                                            -->
+                    <!-- Edit button -->
+                    <!--
+                                            <Border
+                                                Grid.Column="2"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Stroke="#EEEEEE"
+                                                StrokeThickness="1"
+                                                StrokeShape="RoundRectangle 6"
+                                                VerticalOptions="Center">
+
+                                                <ImageButton
+                                                    Source="edit_icon.png"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding Source={x:Reference page}, Path=ViewModel.EditClientCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    Padding="6"
+                                                    Aspect="AspectFit"/>
+                                            </Border>
+                                            <Border
+                                                Grid.Column="3"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Stroke="#EEEEEE"
+                                                StrokeThickness="1"
+                                                StrokeShape="RoundRectangle 6"
+                                                VerticalOptions="Center">
+
+                                                <ImageButton
+                                                    Source="delete_icon.png"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding Source={x:Reference page}, Path=ViewModel.DeleteClientCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    Padding="7"
+                                                    Aspect="AspectFit"/>
+                                            </Border>
+
+                                        </Grid>
+                                        -->
+                    <!-- Divider -->
+                    <!--
+                                        <BoxView
+                                            Grid.Row="1"
+                                            HeightRequest="1"
+                                            Color="#E5E5E5" />
+                                        -->
+                    <!-- Head name and mobile number -->
+                    <!--<Grid
+                                            Grid.Row="2"
+                                            ColumnDefinitions="*,Auto"
+                                            ColumnSpacing="10">
+
+                                            <VerticalStackLayout
+                                                Grid.Column="0"
+                                                Spacing="2">
+
+                                                <Label
+                                                    Text="Email Address"
+                                                    Style="{StaticResource lblMedium}"/>
+
+                                                <Label
+                                                    Text="{Binding EmailAddress}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+
+                                            </VerticalStackLayout>
+
+                                            <VerticalStackLayout
+                                                Grid.Column="1"
+                                                Spacing="2"
+                                                HorizontalOptions="End">
+
+                                                <Label
+                                                    Text="Mobile Number"
+                                                    Style="{StaticResource lblMedium}"
+                                                    HorizontalTextAlignment="End" />
+
+                                                <Label
+                                                    Text="{Binding PhoneNumber}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    HorizontalTextAlignment="End" />
+
+                                            </VerticalStackLayout>
+
+                                        </Grid>-->
+
+                    <!-- Group Details -->
+                    <!--
+                                        <Grid
+                                            Grid.Row="2"
+                                            ColumnDefinitions="Auto,*"
+                                            RowDefinitions="*,*,*,*,*"
+                                            ColumnSpacing="10"
+                                            RowSpacing="6">
+
+                                            -->
+                    <!--Full Name-->
+                    <!--<VerticalStackLayout
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Spacing="1">
+
+                                                <Label
+                                                    Text="Name"
+                                                    Style="{StaticResource lblMedium}" />
+
+                                                <Label
+                                                    Text="{Binding FullName}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>-->
+
+                    <!--First Name-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Spacing="1">
+
+                                                <Label
+                                                    Text="First Name"
+                                                    Style="{StaticResource lblMedium}" />
+
+                                                <Label
+                                                    Text="{Binding FirstName}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+                                            
+                                            -->
+                    <!--Middle Name-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Spacing="1"
+                                                HorizontalOptions="End">
+
+                                                <Label
+                                                    Text="Middle Name"
+                                                    HorizontalTextAlignment="End" 
+                                                    Style="{StaticResource lblMedium}" />
+
+                                                <Label
+                                                    Text="{Binding MiddleName, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    HorizontalTextAlignment="End" 
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                            -->
+                    <!--Last Name-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Spacing="1">
+
+                                                <Label
+                                                    Text="Last Name"
+                                                    Style="{StaticResource lblMedium}" />
+
+                                                <Label
+                                                    Text="{Binding LastName}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                            -->
+                    <!--Mobile Number-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Spacing="1" >
+
+                                                <Label
+                                                    Text="Mobile Number"
+                                                    Style="{StaticResource lblMedium}" />
+
+                                                <Label
+                                                    Text="{Binding PhoneNumber , Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"/>
+                                            </VerticalStackLayout>
+
+                                            -->
+                    <!--Email Address-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Spacing="1"
+                                                HorizontalOptions="End">
+
+                                                <Label
+                                                    Text="Email Address"
+                                                    Style="{StaticResource lblMedium}" 
+                                                    HorizontalTextAlignment="End"/>
+
+                                                <Label
+                                                    Text="{Binding EmailAddress , Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    HorizontalTextAlignment="End"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                            -->
+                    <!--Date Of Birth-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Spacing="1" >
+
+                                                <Label
+                                                    Text="Date Of Birth"
+                                                    Style="{StaticResource lblMedium}" />
+
+                                                <Label
+                                                    Text="{Binding DOB, StringFormat='{0:dd/MM/yyyy}', Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"/>
+                                            </VerticalStackLayout>
+
+                                            -->
+                    <!--Gender-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Spacing="1"
+                                                HorizontalOptions="End">
+
+                                                <Label
+                                                    Text="Gender"
+                                                    Style="{StaticResource lblMedium}" 
+                                                    HorizontalTextAlignment="End"/>
+
+                                                <Label
+                                                    Text="{Binding Gender , Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    HorizontalTextAlignment="End"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                            -->
+                    <!--Marital Status-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                Spacing="1" >
+
+                                                <Label
+                                                    Text="Marital Status"
+                                                    Style="{StaticResource lblMedium}" />
+
+                                                <Label
+                                                    Text="{Binding MaritalStatus , Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"/>
+                                            </VerticalStackLayout>
+
+                                            -->
+                    <!--Occupation-->
+                    <!--
+                                            <VerticalStackLayout
+                                                Grid.Row="4"
+                                                Grid.Column="1"
+                                                Spacing="1"
+                                                HorizontalOptions="End">
+
+                                                <Label
+                                                    Text="Occupation"
+                                                    Style="{StaticResource lblMedium}" 
+                                                    HorizontalTextAlignment="End"/>
+
+                                                <Label
+                                                    Text="{Binding Occupation , Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    HorizontalTextAlignment="End"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>-->
+
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="15,0" Margin="0,10,0,0">
+                                <Border
+                                    Padding="0"
+                                    Background="White"
+                                    Stroke="#BFE3F5"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="1">
+                                    <Border.Shadow>
+                                        <Shadow
+                                            Brush="Black"
+                                            Opacity="0.05"
+                                            Radius="8"
+                                            Offset="0,2" />
+                                    </Border.Shadow>
+
+                                    <Grid RowDefinitions="Auto,Auto,1,Auto">
+
+                                        <!-- Blue header: group and status -->
+                                        <VerticalStackLayout
+                                            Grid.Row="0"
+                                            BackgroundColor="#1E9BD7"
+                                            Padding="12,8"
+                                            Spacing="3">
+
+                                            <Label
+                                                Text="{Binding Group, StringFormat='Group: {0}'}"
+                                                Style="{StaticResource lblMedium}"
+                                                FontSize="16"
+                                                TextColor="White"
+                                                LineBreakMode="TailTruncation" />
+
+                                            <Border
+                                                Padding="5,0"
+                                                HorizontalOptions="Start"
+                                                BackgroundColor="{Binding IsActive, Converter={StaticResource StatusBackgroundConverter}}"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 4">
+                                                <Label
+                                                    Text="{Binding IsActive, Converter={StaticResource StatusTextConverter}}"
+                                                    FontSize="12"
+                                                    Style="{StaticResource lblMedium}"
+                                                    TextColor="{Binding IsActive, Converter={StaticResource StatusForegroundConverter}}"
+                                                    VerticalTextAlignment="Center" />
+                                            </Border>
+                                        </VerticalStackLayout>
+
+                                        <!-- Body -->
+                                        <Grid
+                                            Grid.Row="1"
+                                            Padding="12,10"
+                                            ColumnDefinitions="Auto,*"
+                                            RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                                            ColumnSpacing="10"
+                                            RowSpacing="8">
+
+                                            <!--First Name-->
+                                            <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="1">
+                                                <Label Text="First Name" Style="{StaticResource lblMedium}" />
+                                                <Label
+                                                    Text="{Binding FirstName}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                            <!--Middle Name-->
+                                            <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="1" HorizontalOptions="End">
+                                                <Label
+                                                    Text="Middle Name"
+                                                    Style="{StaticResource lblMedium}"
+                                                    HorizontalTextAlignment="End" />
+                                                <Label
+                                                    Text="{Binding MiddleName, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    HorizontalTextAlignment="End"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                            <!--Last Name-->
+                                            <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="1">
+                                                <Label Text="Last Name" Style="{StaticResource lblMedium}" />
+                                                <Label
+                                                    Text="{Binding LastName}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                            <!--Mobile Number-->
+                                            <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="1" HorizontalOptions="End">
+                                                <Label
+                                                    Text="Mobile Number"
+                                                    Style="{StaticResource lblMedium}"
+                                                    HorizontalTextAlignment="End" />
+                                                <Label
+                                                    Text="{Binding PhoneNumber, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    HorizontalTextAlignment="End" />
+                                            </VerticalStackLayout>
+
+                                            <!--Email Address-->
+                                            <VerticalStackLayout Grid.Row="2" Grid.Column="0" Spacing="1">
+                                                <Label Text="Email Address" Style="{StaticResource lblMedium}" />
+                                                <Label
+                                                    Text="{Binding EmailAddress, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+
+                                            <!--Date Of Birth-->
+                                            <VerticalStackLayout Grid.Row="2" Grid.Column="1" Spacing="1" HorizontalOptions="End">
+                                                <Label
+                                                    Text="Date Of Birth"
+                                                    Style="{StaticResource lblMedium}"
+                                                    HorizontalTextAlignment="End" />
+                                                <Label
+                                                    Text="{Binding DOB, StringFormat='{0:dd/MM/yyyy}', Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    HorizontalTextAlignment="End" />
+                                            </VerticalStackLayout>
+
+                                            <!--Gender-->
+                                            <VerticalStackLayout Grid.Row="3" Grid.Column="0" Spacing="1">
+                                                <Label Text="Gender" Style="{StaticResource lblMedium}" />
+                                                <Label
+                                                    Text="{Binding Gender, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}" />
+                                            </VerticalStackLayout>
+
+                                            <!--Marital Status-->
+                                            <VerticalStackLayout Grid.Row="3" Grid.Column="1" Spacing="1" HorizontalOptions="End">
+                                                <Label
+                                                    Text="Marital Status"
+                                                    Style="{StaticResource lblMedium}"
+                                                    HorizontalTextAlignment="End" />
+                                                <Label
+                                                    Text="{Binding MaritalStatus, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    HorizontalTextAlignment="End" />
+                                            </VerticalStackLayout>
+
+                                            <!--Occupation-->
+                                            <VerticalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Spacing="1">
+                                                <Label Text="Occupation" Style="{StaticResource lblMedium}" />
+                                                <Label
+                                                    Text="{Binding Occupation, Converter={StaticResource NullOrEmptyToDashConverter}}"
+                                                    Style="{StaticResource lblRegular}"
+                                                    TextColor="{StaticResource AppLightGray}"
+                                                    LineBreakMode="TailTruncation" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+
+                                        <!-- Divider -->
+                                        <BoxView
+                                            Grid.Row="2"
+                                            HeightRequest="1"
+                                            Color="#BFE3F5" />
+
+                                        <!-- Footer actions: Location, Edit, Delete -->
+                                        <Grid
+                                            Grid.Row="3"
+                                            ColumnDefinitions="*,1,*,1,*"
+                                            Padding="0,5">
+
+                                            <!-- Location -->
+                                            <Border
+                                                Grid.Column="0"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Stroke="Transparent"
+                                                StrokeThickness="0"
+                                                BackgroundColor="Transparent"
+                                                StrokeShape="RoundRectangle 6"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding Source={x:Reference page}, Path=ViewModel.LocationCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Image
+                                                    Source="location_icon.png"
+                                                    Aspect="AspectFit"
+                                                    Margin="5" />
+                                            </Border>
+
+                                            <BoxView
+                                                Grid.Column="1"
+                                                WidthRequest="1"
+                                                Margin="0,2"
+                                                Color="#1E9BD7" />
+
+                                            <!-- Edit -->
+                                            <Border
+                                                Grid.Column="2"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Stroke="Transparent"
+                                                StrokeThickness="0"
+                                                BackgroundColor="Transparent"
+                                                StrokeShape="RoundRectangle 6"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding Source={x:Reference page}, Path=ViewModel.EditClientCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Image
+                                                    Source="edit_icon.png"
+                                                    Aspect="AspectFit"
+                                                    Margin="6" />
+                                            </Border>
+
+                                            <BoxView
+                                                Grid.Column="3"
+                                                WidthRequest="1"
+                                                Margin="0,2"
+                                                Color="#1E9BD7" />
+
+                                            <!-- Delete -->
+                                            <Border
+                                                Grid.Column="4"
+                                                WidthRequest="30"
+                                                HeightRequest="30"
+                                                Stroke="Transparent"
+                                                StrokeThickness="0"
+                                                BackgroundColor="Transparent"
+                                                StrokeShape="RoundRectangle 6"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding Source={x:Reference page}, Path=ViewModel.DeleteClientCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Image
+                                                    Source="delete_icon.png"
+                                                    Aspect="AspectFit"
+                                                    Margin="7" />
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Border
+                    Grid.Row="1"
+                    Margin="0,0,15,15"
+                    Background="{StaticResource AppPrimary}"
+                    HeightRequest="50"
+                    HorizontalOptions="End"
+                    Stroke="Transparent"
+                    StrokeShape="{RoundRectangle CornerRadius=25}"
+                    VerticalOptions="End"
+                    WidthRequest="50">
+                    <Image
+                        Aspect="AspectFit"
+                        HeightRequest="20"
+                        Source="add_icon"
+                        WidthRequest="20" />
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddClientCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+
+            </Grid>
+        </RefreshView>
+    </Grid>
+</ContentPage>
